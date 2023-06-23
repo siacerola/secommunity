@@ -38,8 +38,50 @@ async function getUser(req,res) {
     
 }
 
+async function getUserDetail(req, res) {
+    const { id } = req.params
+    
+    const doc = await User.findById(id)
+        .populate("role", "roleName -_id")
+        .select("_id name email password noTelp imageURL role")
+        .exec()
+    res.status(200).json(doc)
+}
+
+async function updateUser(req, res) {
+    const { id } = req.params
+    
+    const { name, email, password, noTelp, imageURL, role } = req.body
+    
+    const doc = await User.findById(id)
+    doc.name = name
+    doc.email = email
+    doc.password = password
+    doc.noTelp = noTelp
+    doc.imageURL = imageURL
+    doc.role = role
+    
+    try {
+        await doc.save()
+    } catch (error) {
+        console.log(error);
+    }
+
+    res.status(200).json(doc)
+}
+
+async function deleteUser(req, res) {
+    const { id } = req.params
+
+    const doc = await User.findByIdAndDelete(id)
+
+    res.status(200).json(doc)
+}
+
 module.exports = {
     createUser: createUser,
-    getUser: getUser
-    
+    getUser: getUser,
+    getUserDetail: getUserDetail,
+    updateUser: updateUser,
+    deleteUser: deleteUser
 }

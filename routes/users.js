@@ -13,4 +13,9 @@ router.route("/")
   .post(userController.createUser)
   .get(userController.getUser)
 
+router.route("/:id")
+  .get(userController.getUserDetail)
+  .patch(userController.updateUser)
+  .delete(userController.deleteUser)
+
 module.exports = router;
