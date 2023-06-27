@@ -11,5 +11,11 @@ router.use((req, res, next) => {
 
 router.route("/")
     .post(salesController.createSales)
+    .get(salesController.getSales)
+
+router.route("/:id")
+    .get(salesController.getSalesDetail)
+    .patch(salesController.updateSales)
+    .delete(salesController.deteleSales)
 
 module.exports = router
